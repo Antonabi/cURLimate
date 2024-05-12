@@ -1,0 +1,30 @@
+[build-system]
+requires      = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cURLimate"
+version = "0.1.0"
+description = "cURLimate allows you to make terminal curl animations like 'https://parrot.live'."
+readme = "README.md"
+authors = [{ name = "Antonabi", email = "anton@5k8.de" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["curl", "animated", "terminal"]
+dependencies = ["flask", "gunicorn", "imageio", "ascii_magic", "tqdm"]
+requires-python = ">=3.7"
+
+    [project.optional-dependencies]
+    build = ["build", "twine"]
+    dev   = ["black", "bumpver", "isort", "mypy", "pytest"]
+
+    [project.scripts]
+    curlimate = "curlimate.__main__:main"
+
+    [project.urls]
+    repository    = "https://nothingyet.com/repo"
+    documentation = "https://nothingyet.com/docs"

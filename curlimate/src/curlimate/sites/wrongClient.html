@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/128/4201/4201973.png">
+    <title>cURLimate - Wrong Client</title>
+  </head>
+  <body>
+    <script
+    type="module"
+    src="https://cdn.jsdelivr.net/npm/@bufferhead/nightowl@0.0.14/dist/nightowl.js"
+></script>
+    
+    <div class="titleDiv">
+      <h1 class="title">Wrong Client</h1>
+    </div>
+
+    <div class="contentDiv">
+      <p class="explanation">You sent a http request with a wrong client. To see the animation run this command:</p>
+      <div class="commandDiv" onclick="copyCommand()">
+        <code id="command" class="command"></code>
+      </div>
+  </div>
+
+  </body>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      curlWarningElement = document.getElementById("curlWarning")
+      document.body.removeChild(curlWarningElement)
+    })
+
+    let serverAddress // presetting the serverAddress so it becomes gloabl
+    let command
+    fetch("/getServerAddress")
+      .then(response => response.json())
+      .then(data => {
+        const serverAddress = data.address;
+        console.log("server adress:", serverAddress);
+
+        command = "curl "+serverAddress
+        commandElement = document.getElementById("command")
+        commandElement.textContent = "$ "+command
+    })
+
+    function copyCommand() {
+
+      // creating an invisible textarea 
+      const textarea = document.createElement("textarea")
+      textarea.value = command
+      document.body.appendChild(textarea)
+
+      // selecting and copying the command
+      textarea.select();
+      document.execCommand("copy")
+
+      // deleting the textarea
+      document.body.removeChild(textarea)
+      console.log("Copied "+command)
+      
+      //changing the command to copied for user feedback
+      commandElement.textContent = "Copied"
+      
+      setTimeout(function() {
+        commandElement.textContent = "$ "+command
+      }, 500)
+  }
+  </script>
+
+  <style>
+    .titleDiv {
+    margin: auto;
+    text-align: center;
+    width: 60%;
+    padding: 10px;
+}
+    .title {
+        font-family: Arial, Helvetica, sans-serif;
+
+}
+    /* contentDiv and effects */
+    .contentDiv {
+        border-radius: 25px;
+        text-align: center;
+        margin: auto;
+        width: 75%;
+        padding: 10px;
+        transition: background-position 0.5s ease;
+
+        background: rgb(228,94,86);
+        background: linear-gradient(90deg, rgba(228,94,86,1) 35%, rgba(66,173,211,1) 100%);
+        background-size: 200% 200%;
+    }
+
+    .contentDiv:hover {
+        background-position: 100%;
+    }
+
+    .explanation {
+      font-family:Segoe UI, SegoeUI, Arial, sans-serif;
+      font-size: large;
+    }
+
+    /* commandDiv and effects */
+    .commandDiv {
+        border-radius: 25px;
+        text-align: center;
+        margin: auto;
+        width: 75%;
+        padding: 10px;
+        transition: background-position 0.5s ease;
+
+        background: rgb(10,12,28);
+        background: linear-gradient(90deg, rgba(10,12,28,1) 35%, rgba(21,25,56,1) 100%);
+        background-size: 200% 200%;
+    }
+
+    .commandDiv:hover {
+        background-position: 100%;
+        cursor: pointer;
+    }
+
+    .command {
+      font-size: large;
+      color: white;
+    }
+
+    .curlWarning {
+      opacity: 0;
+    }
+
+  </style>
+</html>
+
+<p class="curlWarning" id="curlWarning">
+[2J[3J[H[91mDon't set the User-Agent. That will break it.
+[0m[35m(It would be possible to work around but im just too lazy (and it would break some things))
+  
+[0m[92mJust run '[96m[1mcurl http://192.168.1.100:8000/[0m[0m'.
+[0m
