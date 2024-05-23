@@ -51,6 +51,5 @@ def imageConvert(args):
         asciiFrame = AsciiArt.from_pillow_image(pillowedFrame)
 
         asciiFrame.to_file(f"{args.frameDir}/frame{i}.txt")
-        #print(colors.okblue(f"Created frame {i} ({args.frameDir}/frame{i}.txt)"))
 
     print(colors.bold("\nSuccessfully created the frame/s"))
